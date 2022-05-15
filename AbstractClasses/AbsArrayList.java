@@ -18,20 +18,21 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	@SuppressWarnings("unchecked")
 	protected AbsArrayList(T... el) {
+		amountOfElements = el.length;
 
 		if (el.length > SIZE)
-			while (el.length > SIZE)
-				resize();
-		elements = new Comparable[SIZE];
 
+			resize();
+		elements = new Comparable[SIZE];
+		int i = 0;
 		for (T t : el)
-			elements[amountOfElements++] = t;
+			elements[i++] = t;
 
 	}
 
 	private void resize() {
-
-		SIZE *= 1.5;
+		while (amountOfElements >= SIZE)
+			SIZE *= 1.5;
 
 	}
 
@@ -58,8 +59,8 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 		Comparable<T>[] el = new Comparable[this.getSize()];
 		System.arraycopy(elements, 0, el, 0, el.length);
-		while (getSize() >= SIZE)
-			resize();
+
+		resize();
 		getElementsWithNewSize();
 		System.arraycopy(el, 0, elements, 0, el.length);
 
