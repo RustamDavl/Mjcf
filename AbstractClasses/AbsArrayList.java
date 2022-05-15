@@ -12,19 +12,21 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	protected Comparable<T>[] elements;
 
-	private int SIZE = 10;
+	private int SIZE = 15;
 
 	private int amountOfElements;
 
 	@SuppressWarnings("unchecked")
 	protected AbsArrayList(T... el) {
 
-		while (el.length > SIZE)
-			resize();
+		if (el.length > SIZE)
+			while (el.length > SIZE)
+				resize();
 		elements = new Comparable[SIZE];
 
 		for (T t : el)
 			elements[amountOfElements++] = t;
+
 	}
 
 	private void resize() {
@@ -33,23 +35,34 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	}
 
-	
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public T get(int index) {
+		if (index >= getSize())
+			throw new IllegalArgumentException();
 		return (T) elements[index];
 	}
 
 	@Override
 	public void insert(T el) {
-		if(isEmpty()) {
-			
-			
+
+		if (getSize() > SIZE - 1) {
+
+			reWriteArray();
 		}
-		while (amountOfElements > this.SIZE)
-			this.resize();
 
 		elements[amountOfElements++] = el;
+	}
+
+	private void reWriteArray() {
+
+		Comparable<T>[] el = new Comparable[this.getSize()];
+		System.arraycopy(elements, 0, el, 0, el.length);
+		while (getSize() >= SIZE)
+			resize();
+		getElementsWithNewSize();
+		System.arraycopy(el, 0, elements, 0, el.length);
+
 	}
 
 	@Override
@@ -73,7 +86,7 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	@Override
 	public T get() {
-		
+
 		return null;
 	}
 
@@ -91,7 +104,7 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	@Override
 	public Iterator<T> iterator() {
-		
+
 		return null;
 	}
 
@@ -99,6 +112,22 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 	public Comparable<T>[] toComparableArray() {
 
 		return elements;
+	}
+
+	@Override
+	public void insert(int index, T element) {
+
+	}
+
+	@Override
+	public T delete(int index) {
+		return null;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void getElementsWithNewSize() {
+		elements = new Comparable[SIZE];
+
 	}
 
 	@Override
