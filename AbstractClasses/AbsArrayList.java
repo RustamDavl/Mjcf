@@ -73,7 +73,7 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	@Override
 	public T get() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -83,7 +83,7 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	}
 
-	// using it to transfer size - parameter into a method quickSort as third
+	// using it to transfer size parameter into a method quickSort as a third
 	// parameter
 	public int getSize() {
 		return amountOfElements;
@@ -91,7 +91,7 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 

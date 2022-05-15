@@ -13,5 +13,9 @@ public interface MCollection<T> extends Iterable<T> {
 	boolean isEmpty();
 	
 	int getSize();
+	
+T get(int index);
+	
+	void sort();
 
 }
