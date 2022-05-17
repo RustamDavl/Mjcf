@@ -47,7 +47,7 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 	@Override
 	public void insert(T el) {
 
-		if (getSize() > SIZE - 1) {
+		if (getSize() >= SIZE ) {
 
 			reWriteArray();
 		}
