@@ -1,8 +1,17 @@
 package MyRealization.MyCollections;
 
 import MyRealization.Interfaces.MList.MList;
+import MyRealization.SearchClasses.BinarySearch;
 
 public class MCollections {
+	
+	public static <T extends Comparable<? super T>>  int getIndex(Comparable<T>[] mList, T element) {
+		
+		
+		return BinarySearch.rank(mList, element);
+	}
+	
+	
 
 	public static <T extends Comparable<? super T>> void quickSort(MList<T> mList) {
 

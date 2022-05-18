@@ -1,5 +1,7 @@
 package MyRealization.AbstractClasses;
 
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Iterator;
 
 import javax.swing.Renderer;
@@ -7,6 +9,7 @@ import javax.swing.Renderer;
 import MyRealization.Interfaces.MCollection;
 import MyRealization.Interfaces.MList.MList;
 import MyRealization.MyCollections.MCollections;
+import MyRealization.SearchClasses.BinarySearch;
 
 public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> {
 
@@ -47,7 +50,7 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 	@Override
 	public void insert(T el) {
 
-		if (getSize() >= SIZE ) {
+		if (getSize() >= SIZE) {
 
 			reWriteArray();
 		}
@@ -86,6 +89,30 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 	}
 
 	@Override
+	public T delete(int index) {
+		return null;
+	}
+
+	@Override
+	public int getIndex(T element) {
+//		@SuppressWarnings("unchecked")
+//		Comparable<T>[] copy = new Comparable[amountOfElements];
+//		System.arraycopy(elements, 0, copy, 0, amountOfElements);
+//		
+//		@SuppressWarnings("unchecked")
+//		Comparable<T>[] s = Arrays.stream(copy).sorted((a, b) -> a.compareTo((T)b)).toArray(Comparable[] :: new);
+//		
+//		return MCollections.getIndex(s, element);
+
+		for (int i = 0; i < getSize(); i++) {
+			if (elements[i].equals(element))
+				return i;
+		}
+		return -1;
+
+	}
+
+	@Override
 	public T get() {
 
 		return null;
@@ -118,11 +145,6 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 	@Override
 	public void insert(int index, T element) {
 
-	}
-
-	@Override
-	public T delete(int index) {
-		return null;
 	}
 
 	@SuppressWarnings("unchecked")

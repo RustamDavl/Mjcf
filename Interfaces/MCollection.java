@@ -21,5 +21,7 @@ public interface MCollection<T> extends Iterable<T> {
 T get(int index);
 	
 	void sort();
+	
+	int getIndex(T element);
 
 }
