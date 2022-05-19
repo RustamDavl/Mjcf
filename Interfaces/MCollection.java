@@ -8,9 +8,11 @@ public interface MCollection<T> extends Iterable<T> {
 
 	int delete(T t);
 	
-	T delete(int index);
+	T deleteIndex(int index);
 
-	T get();
+	T getFirst();
+	
+	T getLast();
 
 	void display();
 

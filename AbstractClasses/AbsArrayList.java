@@ -83,14 +83,38 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 	}
 
 	@Override
-	public int delete(T t) {
+	public int delete(T element) {
+		int index = -1;
+		for (int i = 0; i < getSize(); i++) {
+			if (elements[i].equals(element)) {
+				for (int k = i; k < getSize() - 1; k++) {
+					elements[k] = elements[k + 1];
 
-		return 0;
+				}
+				index = i;
+				amountOfElements--;
+				break;
+			}
+
+		}
+
+		return index;
+
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public T delete(int index) {
-		return null;
+	public T deleteIndex(int index) {
+		T el = (T) elements[index];
+		if (index >= getSize())
+			throw new IllegalArgumentException();
+		for (int i = index; i < getSize() - 1; i++) {
+			elements[i] = elements[i + 1];
+
+		}
+		amountOfElements--;
+
+		return el;
 	}
 
 	@Override
@@ -113,9 +137,14 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 	}
 
 	@Override
-	public T get() {
+	public T getFirst() {
 
-		return null;
+		return (T) elements[0];
+	}
+
+	@Override
+	public T getLast() {
+		return (T) elements[getSize() - 1];
 	}
 
 	@Override
@@ -133,7 +162,24 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 	@Override
 	public Iterator<T> iterator() {
 
-		return null;
+		return new Iterator<T>() {
+			private int i = 0;
+
+			@Override
+			public boolean hasNext() {
+				// TODO Auto-generated method stub
+				return i < amountOfElements;
+			}
+
+			@Override
+			public T next() {
+				// TODO Auto-generated method stub
+
+				T t = (T) elements[i];
+				i++;
+				return t;
+			}
+		};
 	}
 
 	@Override
@@ -144,6 +190,22 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	@Override
 	public void insert(int index, T element) {
+
+		if (index > amountOfElements) {
+			if (index > SIZE) {
+				reWriteArray();
+			}
+			elements[amountOfElements++] = element;
+
+		} else {
+			if (amountOfElements == SIZE)
+				reWriteArray();
+			for (int i = getSize(); i > index; i--) {
+				elements[i] = elements[i - 1];
+			}
+			elements[index] = element;
+			amountOfElements++;
+		}
 
 	}
 
