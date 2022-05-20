@@ -13,7 +13,7 @@ import MyRealization.SearchClasses.BinarySearch;
 
 public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> {
 
-	protected Comparable<T>[] elements;
+	private Comparable<T>[] elements;
 
 	private int SIZE = 15;
 
@@ -43,7 +43,7 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 	@Override
 	public T get(int index) {
 		if (index >= getSize())
-			throw new IllegalArgumentException();
+			throw new IndexOutOfBoundsException("index is bigger than array's size");
 		return (T) elements[index];
 	}
 
@@ -57,8 +57,14 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 		elements[amountOfElements++] = el;
 	}
+	@Override
+	public void insertLast(T value) {
+		if(getSize() >= SIZE)
+			reWriteArray();
+		elements[amountOfElements++] = value;
+	}
 
-	private void reWriteArray() {
+	protected void reWriteArray() {
 
 		Comparable<T>[] el = new Comparable[this.getSize()];
 		System.arraycopy(elements, 0, el, 0, el.length);
@@ -214,6 +220,8 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 		elements = new Comparable[SIZE];
 
 	}
+	
+	
 
 	@Override
 	public String toString() {
@@ -232,5 +240,28 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 			return sb.append("]").toString();
 		}
 	}
+
+	@Override
+	public T deleteFirst() {
+		@SuppressWarnings("unchecked")
+		T el = (T)elements[0];
+		for(int i = 0; i < getSize() - 1; i++) {
+			elements[i] = elements[i + 1];
+		}
+		amountOfElements--;
+		
+		return el;
+	}
+
+	@Override
+	public T deleteLast() {
+		@SuppressWarnings("unchecked")
+		T el = (T)elements[getSize() - 1];
+		amountOfElements--;
+		
+		return el;
+	}
+
+	
 
 }

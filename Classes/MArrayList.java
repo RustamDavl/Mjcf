@@ -13,6 +13,7 @@ public class MArrayList<T extends Comparable<T>> extends AbsArrayList<T> {
 		super(args);
 	}
 	
+	
 
 	
 
