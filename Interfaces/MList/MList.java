@@ -6,7 +6,7 @@ public interface MList<T> extends MCollection<T> {
 	
 	Comparable<T>[] toComparableArray();
 	
-	void insertLast(T value);
+	void insertFirst(T value);
 	
 	void insert(int index, T element);
 	

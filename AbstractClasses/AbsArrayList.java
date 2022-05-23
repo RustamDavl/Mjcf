@@ -58,10 +58,14 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 		elements[amountOfElements++] = el;
 	}
 	@Override
-	public void insertLast(T value) {
+	public void insertFirst(T value) {
 		if(getSize() >= SIZE)
 			reWriteArray();
-		elements[amountOfElements++] = value;
+		for(int i = getSize(); i > 0; i--) {
+			elements[i] = elements[i - 1];
+		}
+		elements[0] = value;
+		amountOfElements++;
 	}
 
 	protected void reWriteArray() {
@@ -142,12 +146,14 @@ public abstract class AbsArrayList<T extends Comparable<T>> implements MList<T> 
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T getFirst() {
 
 		return (T) elements[0];
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T getLast() {
 		return (T) elements[getSize() - 1];

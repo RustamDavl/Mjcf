@@ -20,7 +20,8 @@ public class MLinkedList<T> implements MList<T> {
 	}
 
 	private class Node<E> {
-		int index;
+		static int pointer;
+
 		E value;
 		Node<E> next;
 		Node<E> previous;
@@ -33,7 +34,7 @@ public class MLinkedList<T> implements MList<T> {
 	}
 
 	@Override
-	public void insert(T element) {
+	public void insertFirst(T element) {
 		Node<T> node = new Node<>(element);
 		if (first == null) {
 			last = node;
@@ -48,6 +49,12 @@ public class MLinkedList<T> implements MList<T> {
 
 	@Override
 	public void insert(int index, T element) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void insert(T element) { // insert to the end
 		// TODO Auto-generated method stub
 
 	}
@@ -114,20 +121,34 @@ public class MLinkedList<T> implements MList<T> {
 
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
-		return null;
+
+		return new Iterator<T>() {
+
+			Node<T> current;
+			{
+				current = first;
+
+			}
+
+			@Override
+			public boolean hasNext() {
+
+				return current != null;
+			}
+
+			@Override
+			public T next() {
+				T el = current.value;
+				current = current.next;
+				return el;
+			}
+		};
 	}
 
 	@Override
 	public Comparable<T>[] toComparableArray() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public void insertLast(T value) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
@@ -140,6 +161,24 @@ public class MLinkedList<T> implements MList<T> {
 	public T deleteLast() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		if (first == null)
+			return sb.append("[]").toString();
+		Iterator<T> it = this.iterator();
+		sb.append("[");
+		while (it.hasNext()) {
+			sb.append(it.next());
+			if (!it.hasNext())
+				return sb.append("]").toString();
+			sb.append(", ");
+
+		}
+		
+		return "";
 	}
 
 }
