@@ -1,14 +1,19 @@
 package MyRealization.Classes;
 
+import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import MyRealization.Interfaces.MList.MList;
+import MyRealization.MyCollections.MCollections;
 
-public class MLinkedList<T> implements MList<T> {
+public class MLinkedList<T extends Comparable<T>> implements MList<T> {
 
-	private Node<T> first;
+	private Comparable<T>[] elements;
 
-	private Node<T> last;
+	private Node first;
+
+	private Node last;
 
 	private int amountOfElements;
 
@@ -19,14 +24,13 @@ public class MLinkedList<T> implements MList<T> {
 
 	}
 
-	private class Node<E> {
-		static int pointer;
+	private class Node {
 
-		E value;
-		Node<E> next;
-		Node<E> previous;
+		private T value;
+		private Node next;
+		private Node previous;
 
-		public Node(E value) {
+		public Node(T value) {
 			this.value = value;
 
 		}
@@ -35,7 +39,7 @@ public class MLinkedList<T> implements MList<T> {
 
 	@Override
 	public void insertFirst(T element) {
-		Node<T> node = new Node<>(element);
+		Node node = new Node(element);
 		if (first == null) {
 			last = node;
 		} else {
@@ -45,30 +49,120 @@ public class MLinkedList<T> implements MList<T> {
 
 		first = node;
 
+		amountOfElements++;
+
 	}
 
 	@Override
 	public void insert(int index, T element) {
-		// TODO Auto-generated method stub
+		Node node = new Node(element);
+
+		if (index < 0) {
+
+			first.previous = node;
+			node.next = first;
+			first = node;
+			amountOfElements++;
+			return;
+		} else if (index >= amountOfElements) {
+			index = amountOfElements;
+
+			last.next = node;
+			node.previous = last;
+			last = node;
+			amountOfElements++;
+			return;
+		} else {
+
+			Node current = first;
+
+			int i = 0;
+
+			while (i != index) {
+				current = current.next;
+				i++;
+			}
+			current.previous.next = node;
+			node.previous = current.previous;
+
+			node.next = current;
+			current.previous = node;
+			amountOfElements++;
+		}
 
 	}
 
 	@Override
 	public void insert(T element) { // insert to the end
-		// TODO Auto-generated method stub
+
+		Node node = new Node(element);
+
+		if (last == null) {
+			first = node;
+		} else {
+			node.previous = last;
+			last.next = node;
+
+		}
+
+		last = node;
+		amountOfElements++;
 
 	}
 
 	@Override
 	public int delete(T t) {
-		// TODO Auto-generated method stub
-		return 0;
+		if (t == null)
+			throw new NullPointerException();
+		int i = 0;
+		Node current = first;
+
+		while (!current.value.equals(t)) {
+			current = current.next;
+			i++;
+			if (current == null)
+				throw new NoSuchElementException();
+		}
+
+		current.previous.next = current.next;
+		current.next.previous = current.previous;
+		amountOfElements--;
+		return i;
 	}
 
 	@Override
 	public T deleteIndex(int index) {
-		// TODO Auto-generated method stub
-		return null;
+		if (index < 0 || index >= amountOfElements)
+			throw new IndexOutOfBoundsException();
+		Node current = first;
+		if (index == 0) {
+
+			first.next.previous = null;
+			first = first.next;
+			amountOfElements--;
+			return current.value;
+
+		}
+		if (index == amountOfElements - 1) {
+			T t = last.value;
+			last.previous.next = null;
+			last = last.previous;
+			amountOfElements--;
+			return t;
+
+		}
+
+		int i = 0;
+
+		while (i < index) {
+			i++;
+			current = current.next;
+		}
+		current.previous.next = current.next;
+		current.next.previous = current.previous;
+		amountOfElements--;
+
+		return current.value;
 	}
 
 	@Override
@@ -97,8 +191,8 @@ public class MLinkedList<T> implements MList<T> {
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return amountOfElements;
 	}
 
 	@Override
@@ -109,8 +203,14 @@ public class MLinkedList<T> implements MList<T> {
 
 	@Override
 	public void sort() {
-		// TODO Auto-generated method stub
+		MCollections.quickSort(this);
+		System.out.println(showSortedList());
 
+	}
+
+	private String showSortedList() {
+
+		return Arrays.toString(elements);
 	}
 
 	@Override
@@ -124,7 +224,7 @@ public class MLinkedList<T> implements MList<T> {
 
 		return new Iterator<T>() {
 
-			Node<T> current;
+			Node current;
 			{
 				current = first;
 
@@ -147,8 +247,13 @@ public class MLinkedList<T> implements MList<T> {
 
 	@Override
 	public Comparable<T>[] toComparableArray() {
-		// TODO Auto-generated method stub
-		return null;
+		elements = (T[]) new Comparable[amountOfElements];
+		Iterator<T> it = this.iterator();
+		int i = 0;
+		while (it.hasNext()) {
+			elements[i++] = (T) it.next();
+		}
+		return elements;
 	}
 
 	@Override
@@ -177,7 +282,7 @@ public class MLinkedList<T> implements MList<T> {
 			sb.append(", ");
 
 		}
-		
+
 		return "";
 	}
 
