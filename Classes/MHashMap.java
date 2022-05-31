@@ -85,32 +85,65 @@ public class MHashMap<K, V> implements MMap<K, V> {
 
 	@Override
 	public void put(K key, V value) {
+		Node<K, V> node = getInstance(key, value);
 
 		int i = getIndex(hash(key));
 
-		if (elements[i] != null) {
-			Node<K, V> node = getInstance(key, value);
-			Node<K, V> current = elements[i];
+		if (containsKey(key)) {
 
-			if (current.getKey().equals(node.getKey())) {
+			Node<K, V> current = elements[i];
+			Node<K, V> previous = current;
+			while (!current.getKey().equals(key)) {
+				previous = current;
+
+				current = current.next;
+
+			}
+
+			if (current.getKey().equals(elements[i].getKey())) {
+				
 				elements[i] = node;
-				return;
 
 			} else {
 
-				node.next = current;
-				elements[i] = node;
+				previous.next = node;
+				node.next = current.next;
+				current = null;
 
 			}
 
 		} else {
 
-			elements[i] = getInstance(key, value);
-
+			elements[i] = node;
+			amountOfElements++;
 			listOfIndexes.add(i);
 
 		}
-		amountOfElements++;
+
+//
+//		if (elements[i] != null) {
+//			
+//			Node<K, V> current = elements[i];
+//
+//			if (current.getKey().equals(node.getKey())) {
+//				elements[i] = node;
+//				return;
+//
+//			} else {
+//
+//				node.next = current;
+//				elements[i] = node;
+//
+//			}
+//
+//		} else {
+//
+//			elements[i] = getInstance(key, value);
+//
+//			listOfIndexes.add(i);
+//
+//		}
+//		amountOfElements++;
 	}
 
 	private Node<K, V> getInstance(K key, V value) {
@@ -152,28 +185,26 @@ public class MHashMap<K, V> implements MMap<K, V> {
 			Node<K, V> previous = current;
 
 			while (!current.getKey().equals(key)) {
-				if(current.next == null)
+				if (current.next == null)
 					return null;
 
 				previous = current;
 
 				current = current.next;
 
-				
-
 			}
 
 			if (current.getKey().equals(elements[i].getKey())) {
-				 value = elements[i].getValue();
+				value = elements[i].getValue();
 				elements[i] = null;
-				
-			}
-			else {
-				 value = current.getValue();
+
+			} else {
+				value = current.getValue();
 				previous.next = current.next;
-				
 
 			}
+			
+		listOfIndexes.remove((Integer)i);
 
 			amountOfElements--;
 			return value;
