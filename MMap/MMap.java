@@ -1,6 +1,6 @@
 package MyRealization.MMap;
 
-public interface MMap<K,V> {
+public interface MMap<K extends Comparable<? super K>,V> {
 	
 	int getSize();
 	
@@ -16,7 +16,7 @@ public interface MMap<K,V> {
 	
 	
 	
-	interface Entry<K,V>  {
+	interface Entry<K extends Comparable<? super K>,V>  {
 		
 	   K getKey();
 	   

@@ -6,7 +6,7 @@ import java.util.*;
 
 import MyRealization.MMap.MMap;
 
-public class MHashMap<K, V> implements MMap<K, V> {
+public class MHashMap<K extends Comparable<? super K>, V> implements MMap<K, V> {
 
 	private Node<K, V> first;
 
@@ -15,6 +15,8 @@ public class MHashMap<K, V> implements MMap<K, V> {
 	private Node<K, V>[] elements;
 
 	private List<Integer> listOfIndexes;
+	
+	
 
 	@SuppressWarnings("unchecked")
 	public MHashMap() {
@@ -23,7 +25,7 @@ public class MHashMap<K, V> implements MMap<K, V> {
 
 	}
 
-	private class Node<K, V> implements MMap.Entry<K, V> {
+	private class Node<K extends Comparable<? super K>, V> implements MMap.Entry<K, V> {
 
 		private Node next;
 
